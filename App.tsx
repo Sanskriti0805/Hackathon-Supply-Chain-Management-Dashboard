@@ -1,21 +1,15 @@
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
+// Removed unused Card imports
 import { Button } from './components/ui/button';
 import { Badge } from './components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
-import { Avatar, AvatarFallback } from './components/ui/avatar';
+import { Avatar } from './components/ui/avatar';
 import { 
   Package, 
   BarChart3, 
   Users, 
   Settings, 
   Bell, 
-  Search,
-  Plus,
   TrendingUp,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
   LogOut,
   Menu,
   X
@@ -30,7 +24,13 @@ import { Settings as SettingsComponent } from './components/Settings';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  type User = {
+    name: string;
+    role: string;
+    // add other properties if needed
+  };
+
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifications] = useState([
@@ -94,11 +94,16 @@ export default function App() {
 
             {/* User Profile */}
             <div className="flex items-center space-x-2">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="text-xs">
+              <div className="relative h-8 w-8">
+                <Avatar
+                  className="h-8 w-8"
+                  src={undefined}
+                  alt={currentUser?.name}
+                />
+                <div className="absolute inset-0 flex items-center justify-center text-xs font-bold bg-gray-200 rounded-full">
                   {currentUser?.name?.split(' ').map((n: string) => n[0]).join('').toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+                </div>
+              </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-medium">{currentUser?.name}</p>
                 <p className="text-xs text-muted-foreground capitalize">{currentUser?.role}</p>
